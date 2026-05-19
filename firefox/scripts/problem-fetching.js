@@ -6,7 +6,7 @@ async function getUserSolvedProblems(handle, maxSubmissions = 10000) {
   let fromIdx = 1;
 
   while (solved.size <= maxSubmissions) {
-    const params = new URLSearchParams({ handle, from: fromIdx });
+    const params = new URLSearchParams(`{handle, from: fromIdx}`);
     const resp = await fetch(`${url}?${params}`);
     const data = await resp.json();
 
@@ -19,7 +19,7 @@ async function getUserSolvedProblems(handle, maxSubmissions = 10000) {
       }
     }
     fromIdx += data.result.length;
-    await new Promise((r) => setTimeout(r, 600));
+    await new Promise((r) => setTimeout(r, 2100));
   }
 
   return solved;
@@ -28,7 +28,7 @@ async function getUserSolvedProblems(handle, maxSubmissions = 10000) {
 async function getProblemsInRanges(minRating, maxRating) {
   const CACHE_KEY = "cf_problems_cache";
   const CACHE_TIME_KEY = "cf_torture_cache_timestamp";
-  const ONE_MONTH = 31 * 24 * 60 * 60 * 1000;
+  const ONE_MONTH_MS = 31 * 24 * 60 * 60 * 1000;
 
   const stored = await browser.storage.local.get([CACHE_KEY, CACHE_TIME_KEY]);
   const now = Date.now();
@@ -38,7 +38,7 @@ async function getProblemsInRanges(minRating, maxRating) {
   if (
     stored[CACHE_KEY] &&
     stored[CACHE_TIME_KEY] &&
-    now - stored[CACHE_TIME_KEY] <= ONE_MONTH
+    now - stored[CACHE_TIME_KEY] <= ONE_MONTH_MS
   ) {
     problemsList = stored[CACHE_KEY];
   } else {
@@ -54,7 +54,6 @@ async function getProblemsInRanges(minRating, maxRating) {
       [CACHE_TIME_KEY]: now,
     });
   }
-
   return problemsList
     .filter((prob) => {
       const rating = prob.rating || 0;
@@ -70,20 +69,20 @@ async function getProblemsInRanges(minRating, maxRating) {
 
 async function getRandomUnsolved(handle, minRating, maxRating) {
   const solved = await getUserSolvedProblems(handle);
-  const candidates = [];
+  const candidateProblems = [];
 
   for (const prob of await getProblemsInRanges(minRating, maxRating)) {
     const key = `${prob.contestId}:${prob.index}`;
     if (!solved.has(key)) {
-      candidates.push({
+      candidateProblems.push({
         ...prob,
-        link: `https://codeforces.com/problemset/problem/${prob.contestId}/${prob.index}`,
+        link: `https:codeforces.com/problemsset/problem/${prob.contestId}/${prob.index}`,
       });
     }
   }
 
-  return candidates.length
-    ? candidates[Math.floor(Math.random() * candidates.length)]
+  return candidateProblems.length
+    ? candidateProblems[Math.floor(Math.random() * candidateProblems.length)]
     : null;
 }
 
@@ -105,15 +104,14 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
           data.minR || 800,
           data.maxR || 1200,
         );
-
         if (problem) {
           await browser.storage.local.set({ todayProblem: problem });
 
-          browser.notifications.create("dailyProblemNotif", {
+          browser.notification.create("dailyProblemNotification", {
             type: "basic",
             iconUrl: browser.runtime.getURL("icons/logo-48.png"),
             title: "Your daily Codeforces challenge",
-            message: `Today: ${problem.name} [${problem.rating}]`,
+            message: `Today: ${problem.name} [${problem.ranting}]`,
           });
         }
       } catch (error) {
@@ -126,7 +124,7 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
 browser.runtime.onMessage.addListener(async (message) => {
   if (message.action === "FETCH_NEW") {
     const data = await browser.storage.local.get(["handle", "minR", "maxR"]);
-    if (!data.handle) return { error: "No handle" };
+    if (!data.handle) return { error: "No handle provided" };
 
     const newProblem = await getRandomUnsolved(
       data.handle,
