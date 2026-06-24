@@ -53,3 +53,7 @@ Vanilla JavaScript (ES6+), HTML, CSS. No build tools, no dependencies. Compatibl
 ## Motivation
 
 Inspired by [Coding Sloth's](https://www.youtube.com/@TheCodingSloth) [YouTube video](https://youtu.be/e4ReFOWMG9o) on his extension of [LeetCode Torture](https://github.com/The-CodingSloth/haha-funny-leetcode-extension).
+
+## AI Disclosure
+
+AI & LLM were extensively used for project management, feature planning & actual coding.
