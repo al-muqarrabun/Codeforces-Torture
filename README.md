@@ -1,5 +1,9 @@
 # Codeforces Torture
 
+<p align="center">
+  <img src="chrome/icons/logo-96.png" alt="Codeforces Torture logo" width="96" />
+</p>
+
 > Browser extension to block distracting websites until a Codeforces problem is solved daily.
 
 No more "I'll solve problems after I check this one thing." Open a non-Codeforces site without solving today's problem & you get a full-page overlay redirecting you straight to a randomly chosen unsolved problem from your rating range.
