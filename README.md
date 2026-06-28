@@ -10,6 +10,7 @@ No more "I'll solve problems after I check this one thing." Open a non-Codeforce
 
 ## Features
 
+![Popup - Fetched Problem](screenshots/popup-fetchedproblem.png)
 ![Popup - Logged Out](screenshots/popup-loggedout.png)
 ![Popup - Logged In](screenshots/popup-loggedin.png)
 ![Redirection](screenshots/redirection.png)
