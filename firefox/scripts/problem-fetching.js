@@ -155,6 +155,15 @@ browser.runtime.onMessage.addListener(async (message) => {
     }
 
     try {
+      const loginResp = await fetch("https://codeforces.com/", {
+        credentials: "include",
+      });
+      const loginHtml = await loginResp.text();
+      if (!/\bLogout\b/.test(loginHtml)) {
+        await browser.storage.local.remove("handle");
+        return { solved: true, problem: null };
+      }
+
       const today = new Date();
       today.setUTCHours(0, 0, 0, 0);
       const todayUnix = Math.floor(today.getTime() / 1000);

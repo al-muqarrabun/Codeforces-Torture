@@ -158,6 +158,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
       }
       try {
+        const loginResp = await fetch("https://codeforces.com/", {
+          credentials: "include",
+        });
+        const loginHtml = await loginResp.text();
+        if (!/\bLogout\b/.test(loginHtml)) {
+          await chrome.storage.local.remove("handle");
+          sendResponse({ solved: true, problem: null });
+          return;
+        }
+
         const today = new Date();
         today.setUTCHours(0, 0, 0, 0);
         const todayUnix = Math.floor(today.getTime() / 1000);

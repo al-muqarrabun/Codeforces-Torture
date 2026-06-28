@@ -31,7 +31,11 @@ async function checkCFLogin() {
 
 async function init() {
   const handle = await checkCFLogin();
-  if (handle) await chrome.storage.local.set({ handle });
+  if (handle) {
+    await chrome.storage.local.set({ handle });
+  } else {
+    await chrome.storage.local.remove("handle");
+  }
   const data = await chrome.storage.local.get([
     "handle",
     "minR",
