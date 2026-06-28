@@ -186,11 +186,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           credentials: "include",
         });
         const html = await resp.text();
-        const match = html.match(
-          /<a[^>]*href="\/profile\/([^"]+)"[^>]*class="[^"]*rated-user[^"]*"[^>]*>/i,
+        const profileLinkMatch = html.match(
+          /<a[^>]*href="\/profile\/([^"/?#]+)"[^>]*>([^<]+)<\/a>/,
         );
-        const isLoggedIn = html.match(/Logout/i);
-        if (match && isLoggedIn) {
+        const isLoggedIn = /\bLogout\b/.test(html);
+        if (profileLinkMatch && isLoggedIn) {
           sendResponse({ loggedIn: true, handle: match[1] });
           return;
         }

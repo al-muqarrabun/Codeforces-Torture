@@ -184,11 +184,14 @@ browser.runtime.onMessage.addListener(async (message) => {
         credentials: "include",
       });
       const html = await resp.text();
-      const match = html.match(
-        /<a[^>]*href="\/profile\/([^"]+)"[^>]*class="[^"]*rated-user[^"]*"[^>]*>/i,
+      const profileLinkMatch = html.match(
+        /<a[^>]*href="\/profile\/([^"/?#]+)"[^>]*>([^<]+)<\/a>/,
       );
-      const isLoggedIn = html.match(/Logout/i);
-      if (match && isLoggedIn) return { loggedIn: true, handle: match[1] };
+      const isLoggedIn = /\bLogout\b/.test(html);
+
+      if (profileLinkMatch && isLoggedIn) {
+        return { loggedIn: true, handle: profileLinkMatch[1] };
+      }
       return { loggedIn: false, handle: null };
     } catch {
       return { loggedIn: false, handle: null };

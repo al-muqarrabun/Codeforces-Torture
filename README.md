@@ -10,7 +10,8 @@ No more "I'll solve problems after I check this one thing." Open a non-Codeforce
 
 ## Features
 
-![Popup](screenshots/popup.png)
+![Popup - Logged Out](screenshots/popup-loggedout.png)
+![Popup - Logged In](screenshots/popup-loggedin.png)
 ![Redirection](screenshots/redirection.png)
 
 - **Daily Random Problem** - picks a fresh unsolved problem matching your rating range every day
