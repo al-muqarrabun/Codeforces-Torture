@@ -201,7 +201,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         );
         const isLoggedIn = /\bLogout\b/.test(html);
         if (profileLinkMatch && isLoggedIn) {
-          sendResponse({ loggedIn: true, handle: match[1] });
+          sendResponse({ loggedIn: true, handle: profileLinkMatch[1] });
           return;
         }
         sendResponse({ loggedIn: false, handle: null });
