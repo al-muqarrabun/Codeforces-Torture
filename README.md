@@ -1,7 +1,7 @@
 # Codeforces Torture
 
 <p align="center">
-  <img src="chrome/icons/logo-96.png" alt="Codeforces Torture logo" width="96" />
+  <img src="chrome/icons/logo-128.png" alt="Codeforces Torture logo" width="128" />
 </p>
 
 > Browser extension to block distracting websites until a Codeforces problem is solved daily.

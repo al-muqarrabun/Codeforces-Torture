@@ -1,13 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Codeforces Torture",
-  "version": "1.0",
+  "version": "1.2",
 
   "description": "Stops web surfing until a Codeforces problem has been solved",
   "homepage_url": "https://github.com/MubtasimSajid/Codeforces-Torture",
   "icons": {
-    "48": "icons/logo-48.png",
-    "96": "icons/logo-96.png"
+    "16": "icons/logo-16.png",
+    "32": "icons/logo-32.png"
+    "48": "icons/logo-48.png"
+    "128": "icons/logo-128.png"
   },
 
   "permissions": ["storage", "alarms", "notifications", "tabs"],
